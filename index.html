@@ -4,24 +4,69 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <style>
-       body {
-           display: flex;
-           flex-direction: column;
-           justify-content: center;
-           align-items: center;
-           height: 100vh;
-       }
-   </style>
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous"
+    />
+    <script
+			defer
+			src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+			integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP"
+			crossorigin="anonymous"
+        ></script> 
     <title>Personal Expense calculator</title>
     
 </head>
 <body>
-    <h1 id="htotal"> </h1>
-    <input id="inputamt" type="text">
-    <input id="inputDesc" type="text">
-    <button id ="btnAddExpense">  ADD  </button>
-    <div id="expenseTable"></div>
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-0 h1">Kharcha.com</span>
+        <span class="navbar-brand mb-0 h1"  id="htotal" > </span>
+    </nav>
+    <div class="container-fluid bg-light" style="min-height: 100vh">
+        <div class="container">
+            <div class="jumbotron mt-4">
+                <div class="input-group mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="inputamt"
+                        placeholder="Amount spent"
+                        aria-label="Amount spent"
+                        aria-describedby="spent in rupee"
+                    />
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="spent in rupee">₹</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="spent at">@</span>
+                    </div>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="inputDesc"
+                        placeholder="spent On"
+                        aria-label="spent On"
+                        aria-describedby="spent at"
+                    />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button" id ="btnAddExpense">Add</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <input id="inputamt" type="text"> -->
+            <!-- <input id="inputDesc" type="text"> -->
+            <!-- <button id ="btnAddExpense"> + </button> -->
+            <div>
+                <ul class="list-group" id="expenseTable">
+                </ul>
+            </div>
+        </div>
+    </div>
+    
     <script>
     // get heading element
     const headingElement = document.querySelector("#htotal");
@@ -35,7 +80,7 @@
     const expTableEl = document.querySelector("#expenseTable");
     // init value of expense at 0
     let totalexpense = 0;
-
+    
     // set heading element to total expense
     headingElement.textContent = totalexpense; 
 
@@ -62,6 +107,7 @@
         //put it in the obj
         expenseItem.desc = textDesc;
         expenseItem.amount = expense;
+        expenseItem.moment = new Date();
         // console.log({expenseItem});
 
         //add that value to totalExpense
@@ -74,7 +120,7 @@
  
         //set heading element to total expense
         
-        const result = `The total expense is : ${totalexpense}`
+        const result = `Total: ${totalexpense}`
         headingElement.textContent = result;
 
         //Show the table here 
@@ -88,11 +134,8 @@
         // <div> ${data1Text} </div>
         // <div> ${data2Text} </div>
         // `
-
-    const allExpensesHTML= allExpenses.map(expense => {
-        return `<div> ${expense.amount} :: ${expense.desc} </div>`
-
-    });
+        
+    const allExpensesHTML= allExpenses.map(expense => createListItem(expense));
 
     const JoinedExpenseHTML = allExpensesHTML.join("");
         
@@ -102,7 +145,37 @@
     
         }
         //Listen to click event 
-        element.addEventListener("click",addExpensetoTotal,false);  
+        element.addEventListener("click",addExpensetoTotal,false); 
+
+        //Controller functions 
+        function getDate(momentum){
+            return  momentum.toLocaleDateString('en-US', {
+                day : 'numeric',
+                year : 'numeric',
+                month : 'long',
+                })
+            }
+        // view layer
+        function createListItem ({desc, amount, moment}){
+            return `<li class="list-group-item d-flex justify-content-between">
+							<div class="d-flex flex-column">
+								${desc}
+								<small class="text-muted"> ${getDate(moment)} </small>
+							</div>
+							<div>
+								<span class="px-5">
+									${amount}
+								</span>
+								<button type="button" class="btn btn-outline-danger btn-sm">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</div>
+						</li>
+						
+        `
+        // return `<div> ${expense.amount} :: ${expense.desc} </div>`
+
+        }
 
      </script> 
 </body>
