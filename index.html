@@ -21,6 +21,7 @@
     <input id="inputamt" type="text">
     <input id="inputDesc" type="text">
     <button id ="btnAddExpense">  ADD  </button>
+    <div id="expenseTable"></div>
     <script>
     // get heading element
     const headingElement = document.querySelector("#htotal");
@@ -30,7 +31,8 @@
     const inputElement= document.querySelector("#inputamt");
     //get the button element
     const element = document.querySelector("#btnAddExpense");
-   
+    //ref to table
+    const expTableEl = document.querySelector("#expenseTable");
     // init value of expense at 0
     let totalexpense = 0;
 
@@ -67,13 +69,39 @@
         console.log({totalexpense});
 
         allExpenses.push(expenseItem);
-        console.clear;
-        console.table(allExpenses);
+        //console.clear;
+        //console.table(allExpenses);
  
         //set heading element to total expense
-         headingElement.textContent = totalexpense;
+        
+        const result = `The total expense is : ${totalexpense}`
+        headingElement.textContent = result;
+
+        //Show the table here 
+        // const data1 = allExpenses[0];
+        // const data2 = allExpenses[1];
+        
+        // const data1Text = `Expense: ${data1.amount} :: Desc: ${data1.desc}`;
+        // const data2Text = `Expense: ${data2.amount} :: Desc: ${data2.desc}`;
+
+        // const tabletext = `
+        // <div> ${data1Text} </div>
+        // <div> ${data2Text} </div>
+        // `
+
+    const allExpensesHTML= allExpenses.map(expense => {
+        return `<div> ${expense.amount} :: ${expense.desc} </div>`
+
+    });
+
+    const JoinedExpenseHTML = allExpensesHTML.join("");
+        
+        console.log(JoinedExpenseHTML);
+        
+        expTableEl.innerHTML =  JoinedExpenseHTML;
+    
         }
-        //Listen to click event
+        //Listen to click event 
         element.addEventListener("click",addExpensetoTotal,false);  
 
      </script> 
