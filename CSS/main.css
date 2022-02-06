@@ -22,7 +22,7 @@
 .link{
     color:#ffff;
 }
-.link :hover{
+.link a:hover{
     background-color: aqua;
 }
 body {
