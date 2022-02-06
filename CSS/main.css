@@ -21,8 +21,10 @@
 }
 .link{
     color:rgb(247, 26, 26);
+    
 }
-.link a:hover{
+#a :hover
+{
     background-color: burlywood;
 }
 body {
