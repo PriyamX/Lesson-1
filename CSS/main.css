@@ -22,6 +22,9 @@
 .link{
     color:#ffff;
 }
+.link :hover{
+    background-color: aqua;
+}
 body {
     margin: 0;
 }
